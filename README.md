@@ -737,5 +737,3 @@ docker-compose up -d --force-recreate ept-mx-adm
 - Проверьте API: `curl https://matrix.exampleserver.com/_matrix/client/versions`
 
 ***
-
-Готово! Полностью функциональный Matrix-сервер с доменом, автоматическим SSL и современной админ-панелью EPT-MX-ADM развёрнут.
