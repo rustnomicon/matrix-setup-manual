@@ -325,6 +325,12 @@ services:
     image: matrixdotorg/synapse:latest
     container_name: matrix_synapse
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+
     
     volumes:
       - ./data:/data
@@ -736,4 +742,26 @@ docker-compose up -d --force-recreate ept-mx-adm
 - Проверьте well-known: `curl https://matrix.exampleserver.com/.well-known/matrix/client`
 - Проверьте API: `curl https://matrix.exampleserver.com/_matrix/client/versions`
 
+
+**Упал сервис по памяти**
+
+Зачастую проблема в черезмерном логировании всего стека Matrix
+```bash
+sudo sh -c 'truncate -s 0 /var/lib/docker/containers/*/*-json.log'
+df -h
+```
+Настроить строгие ограничения по логам
+```bash
+vim /etc/docker/daemon.json
+
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m",
+    "max-file": "3"
+  }
+}
+
+sudo systemctl restart docker
+```
 ***
